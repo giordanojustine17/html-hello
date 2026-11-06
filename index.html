@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentHub - Admin Panel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: 'class' };
+</script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
+    <div class="min-h-screen lg:flex">
+      <aside class="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-b-0 lg:border-r">
+        <div class="flex h-16 items-center gap-3 px-5">
+          <div class="flex size-9 items-center justify-center rounded-xl bg-emerald-600 text-white">
+            <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 19.5 8v8L12 20.5 4.5 16V8L12 3.5Z" stroke="currentColor" stroke-width="1.7"/><path d="m8.5 12 2.2 2.2 4.8-5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/></svg>
+          </div>
+          <span class="text-lg font-semibold tracking-tight">Agent<span class="text-emerald-600">Hub</span></span>
+          <span class="ml-auto rounded-md bg-emerald-50 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">Admin</span>
+        </div>
+
+        <div class="hidden px-4 pb-3 pt-5 lg:block">
+          <p class="px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">Workspace</p>
+        </div>
+        <nav aria-label="Main navigation" class="flex gap-1 overflow-x-auto px-3 pb-3 lg:flex-1 lg:flex-col lg:overflow-visible lg:px-4">
+          <a href="#dashboard-view" data-view-target="dashboard" aria-current="page" class="flex shrink-0 items-center gap-3 rounded-lg bg-emerald-50 px-3 py-2.5 text-sm font-medium text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 lg:w-full">
+            <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg>
+            Dashboard
+          </a>
+          <a href="#users" data-view-target="users" class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white lg:w-full">
+            <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20m16 0v-1.6a3.4 3.4 0 0 0-2.5-3.28M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8-7.5a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg>
+            User Management
+          </a>
+          <a href="#agents" data-view-target="agents" class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white lg:w-full">
+            <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M9 7V5.5a3 3 0 0 1 6 0V7m-6 5h.01M15 12h.01M9 16h6" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg>
+            Agent Management
+          </a>
+          <a href="#skills" data-view-target="skills" class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white lg:w-full">
+            <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3 1.65 5.35L19 10l-5.35 1.65L12 17l-1.65-5.35L5 10l5.35-1.65L12 3Zm6 12 .8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8L18 15Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"/></svg>
+            Skills
+          </a>
+          <a href="#contracts" data-view-target="contracts" class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white lg:w-full">
+            <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7"/><path d="M14 3.5v5h5M8.5 13h7m-7 4h7" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg>
+            Agent Contracts
+          </a>
+          <a href="#errors" data-view-target="errors" class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white lg:w-full">
+            <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 21 20H3l9-16.5Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.7"/><path d="M12 9v4m0 3h.01" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"/></svg>
+            Error Log
+          </a>
+        </nav>
+      </aside>
+
+      <main class="min-w-0 flex-1 lg:ml-64">
+        <header class="border-b border-slate-200 bg-white px-5 py-4 md:px-8 dark:border-slate-800 dark:bg-slate-900">
+          <div class="flex items-center justify-between gap-4">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">AgentHub / <span id="section-breadcrumb" aria-live="polite" class="text-slate-900 dark:text-white">Dashboard</span></p>
+            <button id="theme-toggle" type="button" aria-label="Switch to dark mode" class="inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+              <svg id="theme-icon" class="size-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.2 15.1A8.3 8.3 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="mx-auto max-w-[1440px] px-5 py-8 md:px-8 md:py-10">
+          <div id="dashboard-view">
+          <section aria-labelledby="dashboard-heading">
+            <div class="mb-7">
+              <p class="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-400">Platform overview</p>
+              <h1 id="dashboard-heading" class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl dark:text-white">Dashboard</h1>
+              <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">A quick view of your platform’s performance this month.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <article class="rounded-xl border border-emerald-200 bg-emerald-50/70 p-5 shadow-sm dark:border-emerald-900 dark:bg-emerald-950/40">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">
+                  <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v18m4-13.5c0-1.4-1.8-2.5-4-2.5s-4 1.1-4 2.5 1.8 2.5 4 2.5 4 1.1 4 2.5-1.8 2.5-4 2.5-4-1.1-4-2.5" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg>
+                </div>
+                <h2 class="mt-5 text-sm font-medium text-emerald-950/70 dark:text-emerald-100/70">Total Revenue This Month</h2>
+                <p class="mt-1 text-3xl font-semibold tracking-tight text-emerald-950 dark:text-emerald-50">$48,294</p>
+              </article>
+
+              <article class="rounded-xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm dark:border-amber-900 dark:bg-amber-950/40">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300">
+                  <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 13 13 20l-9-9V4h7l9 9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.7"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/></svg>
+                </div>
+                <h2 class="mt-5 text-sm font-medium text-amber-950/70 dark:text-amber-100/70">Discount and Coupon Losses</h2>
+                <p class="mt-1 text-3xl font-semibold tracking-tight text-amber-950 dark:text-amber-50">$2,840</p>
+              </article>
+
+              <article class="rounded-xl border border-sky-200 bg-sky-50/70 p-5 shadow-sm dark:border-sky-900 dark:bg-sky-950/40">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300">
+                  <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M9 7V5.5a3 3 0 0 1 6 0V7m-6 5h.01M15 12h.01M9 16h6" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg>
+                </div>
+                <h2 class="mt-5 text-sm font-medium text-sky-950/70 dark:text-sky-100/70">Active Agents</h2>
+                <p class="mt-1 text-3xl font-semibold tracking-tight text-sky-950 dark:text-sky-50">128</p>
+              </article>
+
+              <article class="rounded-xl border border-rose-200 bg-rose-50/70 p-5 shadow-sm dark:border-rose-900 dark:bg-rose-950/40">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-300">
+                  <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 21 20H3l9-16.5Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.7"/><path d="M12 9v4m0 3h.01" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"/></svg>
+                </div>
+                <h2 class="mt-5 text-sm font-medium text-rose-950/70 dark:text-rose-100/70">Failing Agents</h2>
+                <p class="mt-1 text-3xl font-semibold tracking-tight text-rose-950 dark:text-rose-50">7</p>
+              </article>
+            </div>
+          </section>
+
+          <section aria-labelledby="weekly-activity-heading" class="mt-6">
+            <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6 dark:border-slate-800 dark:bg-slate-900">
+              <div class="mb-5">
+                <h2 id="weekly-activity-heading" class="text-base font-semibold">Weekly Activity Chart</h2>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Platform activity over the past week</p>
+              </div>
+              <div class="flex h-64 items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50/70 dark:border-slate-700 dark:bg-slate-950/50">
+                <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Weekly Activity Chart</p>
+              </div>
+            </div>
+          </section>
+          </div>
+
+          <section id="users" aria-labelledby="users-heading" hidden>
+            <div class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <p class="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-400">Workspace</p>
+                <h1 id="users-heading" class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl dark:text-white">User Management</h1>
+                <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">Manage subscriptions and account access for your users.</p>
+              </div>
+              <p id="user-count" class="text-sm text-slate-500 dark:text-slate-400">5 users</p>
+            </div>
+
+            <div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <table class="w-full table-fixed text-left text-sm">
+                  <caption class="sr-only">User accounts, subscription plans, and account statuses</caption>
+                  <colgroup>
+                    <col class="w-[20%]">
+                    <col class="w-[31%]">
+                    <col class="w-[19%]">
+                    <col class="w-[17%]">
+                    <col class="w-[13%]">
+                  </colgroup>
+                  <thead class="bg-slate-50 text-xs font-medium uppercase tracking-wide text-slate-500 dark:bg-slate-950/60 dark:text-slate-400">
+                    <tr>
+                      <th scope="col" class="px-3 py-3 md:px-4">Name</th>
+                      <th scope="col" class="px-3 py-3 md:px-4">Email</th>
+                      <th scope="col" class="px-3 py-3 md:px-4">Subscription plan</th>
+                      <th scope="col" class="px-3 py-3 md:px-4">Status</th>
+                      <th scope="col" class="px-3 py-3 text-right md:px-4"><span class="sr-only">Actions</span></th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tr data-user-row>
+                      <th scope="row" class="break-words px-3 py-4 font-medium text-slate-900 md:px-4 dark:text-white">Olivia Rhye</th>
+                      <td class="break-all px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">olivia.rhye@example.com</td>
+                      <td class="break-words px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">Enterprise</td>
+                      <td class="px-3 py-4 md:px-4"><span class="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">Active</span></td>
+                      <td class="px-3 py-4 text-right md:px-4">
+                        <div class="relative inline-flex" data-user-actions>
+                          <button type="button" aria-label="Open actions for Olivia Rhye" aria-haspopup="menu" aria-expanded="false" aria-controls="user-menu-olivia" data-user-menu-toggle class="inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></button>
+                          <div id="user-menu-olivia" role="menu" aria-label="Actions for Olivia Rhye" data-user-menu hidden class="absolute right-0 top-full z-30 mt-1 w-40 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                            <button type="button" role="menuitem" data-user-action="view" class="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">View detail</button>
+                            <button type="button" role="menuitem" data-user-action="delete" class="block w-full rounded-md px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950">Delete</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-user-row>
+                      <th scope="row" class="break-words px-3 py-4 font-medium text-slate-900 md:px-4 dark:text-white">Phoenix Baker</th>
+                      <td class="break-all px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">phoenix.baker@example.com</td>
+                      <td class="break-words px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">Pro</td>
+                      <td class="px-3 py-4 md:px-4"><span class="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">Active</span></td>
+                      <td class="px-3 py-4 text-right md:px-4">
+                        <div class="relative inline-flex" data-user-actions>
+                          <button type="button" aria-label="Open actions for Phoenix Baker" aria-haspopup="menu" aria-expanded="false" aria-controls="user-menu-phoenix" data-user-menu-toggle class="inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></button>
+                          <div id="user-menu-phoenix" role="menu" aria-label="Actions for Phoenix Baker" data-user-menu hidden class="absolute right-0 top-full z-30 mt-1 w-40 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                            <button type="button" role="menuitem" data-user-action="view" class="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">View detail</button>
+                            <button type="button" role="menuitem" data-user-action="delete" class="block w-full rounded-md px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950">Delete</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-user-row>
+                      <th scope="row" class="break-words px-3 py-4 font-medium text-slate-900 md:px-4 dark:text-white">Lana Steiner</th>
+                      <td class="break-all px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">lana.steiner@example.com</td>
+                      <td class="break-words px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">Starter</td>
+                      <td class="px-3 py-4 md:px-4"><span class="inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 dark:bg-amber-950 dark:text-amber-300">Pending</span></td>
+                      <td class="px-3 py-4 text-right md:px-4">
+                        <div class="relative inline-flex" data-user-actions>
+                          <button type="button" aria-label="Open actions for Lana Steiner" aria-haspopup="menu" aria-expanded="false" aria-controls="user-menu-lana" data-user-menu-toggle class="inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></button>
+                          <div id="user-menu-lana" role="menu" aria-label="Actions for Lana Steiner" data-user-menu hidden class="absolute right-0 top-full z-30 mt-1 w-40 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                            <button type="button" role="menuitem" data-user-action="view" class="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">View detail</button>
+                            <button type="button" role="menuitem" data-user-action="delete" class="block w-full rounded-md px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950">Delete</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-user-row>
+                      <th scope="row" class="break-words px-3 py-4 font-medium text-slate-900 md:px-4 dark:text-white">Demi Wilkinson</th>
+                      <td class="break-all px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">demi.wilkinson@example.com</td>
+                      <td class="break-words px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">Pro</td>
+                      <td class="px-3 py-4 md:px-4"><span class="inline-flex rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-700 dark:bg-rose-950 dark:text-rose-300">Suspended</span></td>
+                      <td class="px-3 py-4 text-right md:px-4">
+                        <div class="relative inline-flex" data-user-actions>
+                          <button type="button" aria-label="Open actions for Demi Wilkinson" aria-haspopup="menu" aria-expanded="false" aria-controls="user-menu-demi" data-user-menu-toggle class="inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></button>
+                          <div id="user-menu-demi" role="menu" aria-label="Actions for Demi Wilkinson" data-user-menu hidden class="absolute right-0 top-full z-30 mt-1 w-40 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                            <button type="button" role="menuitem" data-user-action="view" class="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">View detail</button>
+                            <button type="button" role="menuitem" data-user-action="delete" class="block w-full rounded-md px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950">Delete</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-user-row>
+                      <th scope="row" class="break-words px-3 py-4 font-medium text-slate-900 md:px-4 dark:text-white">Candice Wu</th>
+                      <td class="break-all px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">candice.wu@example.com</td>
+                      <td class="break-words px-3 py-4 text-slate-600 md:px-4 dark:text-slate-300">Enterprise</td>
+                      <td class="px-3 py-4 md:px-4"><span class="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">Active</span></td>
+                      <td class="px-3 py-4 text-right md:px-4">
+                        <div class="relative inline-flex" data-user-actions>
+                          <button type="button" aria-label="Open actions for Candice Wu" aria-haspopup="menu" aria-expanded="false" aria-controls="user-menu-candice" data-user-menu-toggle class="inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></button>
+                          <div id="user-menu-candice" role="menu" aria-label="Actions for Candice Wu" data-user-menu hidden class="absolute right-0 top-full z-30 mt-1 w-40 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                            <button type="button" role="menuitem" data-user-action="view" class="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">View detail</button>
+                            <button type="button" role="menuitem" data-user-action="delete" class="block w-full rounded-md px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950">Delete</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+          </section>
+
+          <section id="agents" aria-labelledby="agents-heading" hidden>
+            <div class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <p class="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-400">Workspace</p>
+                <h1 id="agents-heading" class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl dark:text-white">Agent Management</h1>
+                <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">Review your AI agents, their owners, and enabled skills.</p>
+              </div>
+              <p id="agent-count" class="text-sm text-slate-500 dark:text-slate-400">4 agents</p>
+            </div>
+
+            <div class="grid gap-4 md:grid-cols-2">
+              <article data-agent-card data-agent-id="atlas" class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div class="flex items-start gap-3">
+                  <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sm font-semibold text-sky-700 dark:bg-sky-950 dark:text-sky-300">AR</div>
+                  <div class="min-w-0 flex-1">
+                    <h2 data-agent-name class="font-semibold">Atlas Research</h2>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Owned by Olivia Rhye</p>
+                  </div>
+                  <span class="inline-flex shrink-0 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">Active</span>
+                  <div class="relative shrink-0" data-agent-actions>
+                    <button type="button" aria-label="Actions for Atlas Research" aria-haspopup="menu" aria-expanded="false" aria-controls="agent-menu-atlas" data-agent-menu-toggle class="inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></button>
+                    <div id="agent-menu-atlas" role="menu" aria-label="Actions for Atlas Research" data-agent-menu hidden class="absolute right-0 top-full z-30 mt-1 w-40 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                      <button type="button" role="menuitem" data-agent-action="configure" class="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">Configure</button>
+                      <button type="button" role="menuitem" data-agent-action="delete" class="block w-full rounded-md px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950">Delete</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800">
+                  <button type="button" data-agent-skills-toggle data-agent-name="Atlas Research" aria-controls="agent-skills-atlas" aria-expanded="false" aria-label="Show skills for Atlas Research" class="flex w-full items-center justify-between text-sm font-medium text-slate-600 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-300 dark:hover:text-white">
+                    <span data-agent-skills-label>Show skills <span class="ml-1 text-xs font-normal text-slate-400">2</span></span>
+                    <svg data-agent-skills-icon class="size-4 transition-transform duration-300" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"/></svg>
+                  </button>
+                  <div id="agent-skills-atlas" data-agent-skills-panel aria-hidden="true" class="grid grid-rows-[0fr] opacity-0 transition-all duration-300 ease-in-out">
+                    <div class="min-h-0 overflow-hidden">
+                      <ul class="flex flex-wrap gap-2 pt-3">
+                        <li class="rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">Web browsing</li>
+                        <li class="rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">Document reading</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article data-agent-card data-agent-id="support" class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div class="flex items-start gap-3">
+                  <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-sm font-semibold text-orange-700 dark:bg-orange-950 dark:text-orange-300">SD</div>
+                  <div class="min-w-0 flex-1">
+                    <h2 data-agent-name class="font-semibold">Support Desk</h2>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Owned by Phoenix Baker</p>
+                  </div>
+                  <span class="inline-flex shrink-0 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">Active</span>
+                  <div class="relative shrink-0" data-agent-actions>
+                    <button type="button" aria-label="Actions for Support Desk" aria-haspopup="menu" aria-expanded="false" aria-controls="agent-menu-support" data-agent-menu-toggle class="inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></button>
+                    <div id="agent-menu-support" role="menu" aria-label="Actions for Support Desk" data-agent-menu hidden class="absolute right-0 top-full z-30 mt-1 w-40 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                      <button type="button" role="menuitem" data-agent-action="configure" class="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">Configure</button>
+                      <button type="button" role="menuitem" data-agent-action="delete" class="block w-full rounded-md px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950">Delete</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800">
+                  <button type="button" data-agent-skills-toggle data-agent-name="Support Desk" aria-controls="agent-skills-support" aria-expanded="false" aria-label="Show skills for Support Desk" class="flex w-full items-center justify-between text-sm font-medium text-slate-600 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-300 dark:hover:text-white">
+                    <span data-agent-skills-label>Show skills <span class="ml-1 text-xs font-normal text-slate-400">2</span></span>
+                    <svg data-agent-skills-icon class="size-4 transition-transform duration-300" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"/></svg>
+                  </button>
+                  <div id="agent-skills-support" data-agent-skills-panel aria-hidden="true" class="grid grid-rows-[0fr] opacity-0 transition-all duration-300 ease-in-out">
+                    <div class="min-h-0 overflow-hidden">
+                      <ul class="flex flex-wrap gap-2 pt-3">
+                        <li class="rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">Web browsing</li>
+                        <li class="rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">Email management</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article data-agent-card data-agent-id="meeting" class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div class="flex items-start gap-3">
+                  <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-teal-100 text-sm font-semibold text-teal-700 dark:bg-teal-950 dark:text-teal-300">MS</div>
+                  <div class="min-w-0 flex-1">
+                    <h2 data-agent-name class="font-semibold">Meeting Scheduler</h2>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Owned by Lana Steiner</p>
+                  </div>
+                  <span class="inline-flex shrink-0 rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-700 dark:bg-rose-950 dark:text-rose-300">Failing</span>
+                  <div class="relative shrink-0" data-agent-actions>
+                    <button type="button" aria-label="Actions for Meeting Scheduler" aria-haspopup="menu" aria-expanded="false" aria-controls="agent-menu-meeting" data-agent-menu-toggle class="inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></button>
+                    <div id="agent-menu-meeting" role="menu" aria-label="Actions for Meeting Scheduler" data-agent-menu hidden class="absolute right-0 top-full z-30 mt-1 w-40 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                      <button type="button" role="menuitem" data-agent-action="configure" class="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">Configure</button>
+                      <button type="button" role="menuitem" data-agent-action="delete" class="block w-full rounded-md px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950">Delete</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800">
+                  <button type="button" data-agent-skills-toggle data-agent-name="Meeting Scheduler" aria-controls="agent-skills-meeting" aria-expanded="false" aria-label="Show skills for Meeting Scheduler" class="flex w-full items-center justify-between text-sm font-medium text-slate-600 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-300 dark:hover:text-white">
+                    <span data-agent-skills-label>Show skills <span class="ml-1 text-xs font-normal text-slate-400">2</span></span>
+                    <svg data-agent-skills-icon class="size-4 transition-transform duration-300" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"/></svg>
+                  </button>
+                  <div id="agent-skills-meeting" data-agent-skills-panel aria-hidden="true" class="grid grid-rows-[0fr] opacity-0 transition-all duration-300 ease-in-out">
+                    <div class="min-h-0 overflow-hidden">
+                      <ul class="flex flex-wrap gap-2 pt-3">
+                        <li class="rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">Calendar management</li>
+                        <li class="rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">Email management</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article data-agent-card data-agent-id="contract" class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div class="flex items-start gap-3">
+                  <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-pink-100 text-sm font-semibold text-pink-700 dark:bg-pink-950 dark:text-pink-300">CR</div>
+                  <div class="min-w-0 flex-1">
+                    <h2 data-agent-name class="font-semibold">Contract Reviewer</h2>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Owned by Demi Wilkinson</p>
+                  </div>
+                  <span class="inline-flex shrink-0 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">Inactive</span>
+                  <div class="relative shrink-0" data-agent-actions>
+                    <button type="button" aria-label="Actions for Contract Reviewer" aria-haspopup="menu" aria-expanded="false" aria-controls="agent-menu-contract" data-agent-menu-toggle class="inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg></button>
+                    <div id="agent-menu-contract" role="menu" aria-label="Actions for Contract Reviewer" data-agent-menu hidden class="absolute right-0 top-full z-30 mt-1 w-40 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                      <button type="button" role="menuitem" data-agent-action="configure" class="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700">Configure</button>
+                      <button type="button" role="menuitem" data-agent-action="delete" class="block w-full rounded-md px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950">Delete</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800">
+                  <button type="button" data-agent-skills-toggle data-agent-name="Contract Reviewer" aria-controls="agent-skills-contract" aria-expanded="false" aria-label="Show skills for Contract Reviewer" class="flex w-full items-center justify-between text-sm font-medium text-slate-600 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-300 dark:hover:text-white">
+                    <span data-agent-skills-label>Show skills <span class="ml-1 text-xs font-normal text-slate-400">2</span></span>
+                    <svg data-agent-skills-icon class="size-4 transition-transform duration-300" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"/></svg>
+                  </button>
+                  <div id="agent-skills-contract" data-agent-skills-panel aria-hidden="true" class="grid grid-rows-[0fr] opacity-0 transition-all duration-300 ease-in-out">
+                    <div class="min-h-0 overflow-hidden">
+                      <ul class="flex flex-wrap gap-2 pt-3">
+                        <li class="rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">Document reading</li>
+                        <li class="rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">Web browsing</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section id="skills" aria-labelledby="skills-heading" hidden>
+            <div class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <p class="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-400">Workspace</p>
+                <h1 id="skills-heading" class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl dark:text-white">Skills</h1>
+                <p class="mt-1.5 max-w-2xl text-sm text-slate-500 dark:text-slate-400">Skills give agents capabilities for specific tasks, such as browsing the web, reading documents, or managing calendars.</p>
+              </div>
+              <p id="skills-count" class="text-sm text-slate-500 dark:text-slate-400">4 skills</p>
+            </div>
+            <div id="skills-list" class="grid gap-4 md:grid-cols-2" aria-live="polite"></div>
+          </section>
+
+          <section id="contracts" aria-labelledby="contracts-heading" hidden>
+            <div class="mb-7">
+              <p class="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-400">Workspace</p>
+              <h1 id="contracts-heading" class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl dark:text-white">Agent Contracts</h1>
+              <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">Review active and completed agent rental agreements.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <table class="w-full table-fixed text-left text-xs sm:text-sm">
+                <caption class="sr-only">Agent rental contracts, contracted skills, dates, and amounts paid</caption>
+                <colgroup><col class="w-[17%]"><col class="w-[18%]"><col class="w-[24%]"><col class="w-[12%]"><col class="w-[12%]"><col class="w-[11%]"><col class="w-[6%]"></colgroup>
+                <thead class="bg-slate-50 text-[10px] font-semibold uppercase tracking-wide text-slate-500 sm:text-xs dark:bg-slate-950/60 dark:text-slate-400">
+                  <tr><th scope="col" class="px-2 py-3 sm:px-4">Client</th><th scope="col" class="px-2 py-3 sm:px-4">Agent</th><th scope="col" class="px-2 py-3 sm:px-4">Contracted skills</th><th scope="col" class="px-2 py-3 sm:px-4">Start date</th><th scope="col" class="px-2 py-3 sm:px-4">End date</th><th scope="col" class="px-2 py-3 sm:px-4">Paid</th><th scope="col" class="px-2 py-3 text-right sm:px-4"><span class="sr-only">Actions</span></th></tr>
+                </thead>
+                <tbody id="contracts-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="errors" aria-labelledby="errors-heading" hidden>
+            <div class="mb-7">
+              <p class="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-400">Workspace</p>
+              <h1 id="errors-heading" class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl dark:text-white">Error Log</h1>
+              <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">Inspect recent agent errors and resolution status.</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <table class="w-full table-fixed text-left text-xs sm:text-sm">
+                <caption class="sr-only">Agent errors with timestamps, types, descriptions, and resolution status</caption>
+                <colgroup><col class="w-[18%]"><col class="w-[18%]"><col class="w-[15%]"><col class="w-[27%]"><col class="w-[13%]"><col class="w-[9%]"></colgroup>
+                <thead class="bg-slate-50 text-[10px] font-semibold uppercase tracking-wide text-slate-500 sm:text-xs dark:bg-slate-950/60 dark:text-slate-400">
+                  <tr><th scope="col" class="px-2 py-3 sm:px-4">Timestamp</th><th scope="col" class="px-2 py-3 sm:px-4">Agent</th><th scope="col" class="px-2 py-3 sm:px-4">Type</th><th scope="col" class="px-2 py-3 sm:px-4">Description</th><th scope="col" class="px-2 py-3 sm:px-4">Status</th><th scope="col" class="px-2 py-3 text-right sm:px-4"><span class="sr-only">Actions</span></th></tr>
+                </thead>
+                <tbody id="errors-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <dialog id="skill-detail-dialog" aria-labelledby="skill-detail-name" class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-xl overflow-y-auto rounded-xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-950/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-4">
+          <div><p class="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">Skill detail</p><h2 id="skill-detail-name" class="mt-1 text-xl font-semibold"></h2></div>
+          <button type="button" data-dialog-close="skill-detail-dialog" aria-label="Close skill details" class="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg></button>
+        </div>
+        <dl class="mt-6 space-y-4">
+          <div><dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Description</dt><dd id="skill-detail-description" class="mt-1 text-sm leading-6"></dd></div>
+          <div><dt class="text-sm font-medium text-slate-500 dark:text-slate-400">What it does</dt><dd id="skill-detail-capability" class="mt-1 text-sm leading-6"></dd></div>
+          <div><dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Enabled on</dt><dd id="skill-detail-agents" class="mt-1 text-sm leading-6"></dd></div>
+        </dl>
+      </div>
+    </dialog>
+
+    <dialog id="delete-skill-dialog" aria-labelledby="delete-skill-heading" class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-950/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-4"><h2 id="delete-skill-heading" class="text-lg font-semibold">Delete skill?</h2><button type="button" data-dialog-close="delete-skill-dialog" aria-label="Close delete confirmation" class="inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg></button></div>
+        <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">Remove <span id="delete-skill-name" class="font-medium text-slate-900 dark:text-white"></span> from the Skills catalog? This does not change agent or contract reference data.</p>
+        <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"><button id="cancel-skill-delete" type="button" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-200 px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Cancel</button><button id="confirm-skill-delete" type="button" class="inline-flex h-10 items-center justify-center rounded-lg bg-rose-600 px-4 text-sm font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">Delete skill</button></div>
+      </div>
+    </dialog>
+
+    <dialog id="contract-detail-dialog" aria-labelledby="contract-detail-heading" class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-950/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-4"><div><p class="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">Contract breakdown</p><h2 id="contract-detail-heading" class="mt-1 text-xl font-semibold"></h2></div><button type="button" data-dialog-close="contract-detail-dialog" aria-label="Close contract details" class="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg></button></div>
+        <dl class="mt-6 grid gap-4 sm:grid-cols-2"><div><dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Client</dt><dd id="contract-detail-client" class="mt-1 text-sm font-medium"></dd></div><div><dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Assigned agent</dt><dd id="contract-detail-agent" class="mt-1 text-sm font-medium"></dd></div><div><dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Start date</dt><dd id="contract-detail-start" class="mt-1 text-sm"></dd></div><div><dt class="text-xs font-medium text-slate-500 dark:text-slate-400">End date</dt><dd id="contract-detail-end" class="mt-1 text-sm"></dd></div></dl>
+        <h3 class="mt-6 text-sm font-semibold">Contracted skills and prices</h3>
+        <div class="mt-3 overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700"><table class="w-full text-left text-sm"><thead class="bg-slate-50 text-xs font-medium uppercase text-slate-500 dark:bg-slate-950/60 dark:text-slate-400"><tr><th scope="col" class="px-4 py-3">Skill</th><th scope="col" class="px-4 py-3 text-right">Price</th></tr></thead><tbody id="contract-detail-skills" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody><tfoot class="bg-slate-50 dark:bg-slate-950/60"><tr><th scope="row" class="px-4 py-3 text-sm font-semibold">Total paid</th><td id="contract-detail-total" class="px-4 py-3 text-right text-sm font-semibold"></td></tr></tfoot></table></div>
+      </div>
+    </dialog>
+
+    <dialog id="error-detail-dialog" aria-labelledby="error-detail-heading" class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-950/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-4"><div><p class="text-xs font-semibold uppercase tracking-wide text-rose-700 dark:text-rose-400">Error detail</p><h2 id="error-detail-heading" class="mt-1 text-xl font-semibold"></h2></div><button type="button" data-dialog-close="error-detail-dialog" aria-label="Close error details" class="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"><svg class="size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg></button></div>
+        <dl class="mt-6 grid gap-4 sm:grid-cols-2"><div><dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Timestamp</dt><dd id="error-detail-timestamp" class="mt-1 text-sm"></dd></div><div><dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Agent</dt><dd id="error-detail-agent" class="mt-1 text-sm"></dd></div><div><dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Type</dt><dd id="error-detail-type" class="mt-1 text-sm"></dd></div><div><dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Status</dt><dd id="error-detail-status" class="mt-1 text-sm"></dd></div></dl>
+        <p id="error-detail-description" class="mt-5 text-sm leading-6"></p>
+        <h3 class="mt-5 text-sm font-semibold">Error trace</h3>
+        <pre id="error-detail-trace" class="mt-2 max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-slate-950 p-4 text-xs leading-5 text-slate-100"></pre>
+      </div>
+    </dialog>
+
+    <dialog id="configure-agent-dialog" aria-labelledby="configure-agent-heading" class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-950/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+      <form method="dialog" class="p-6">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">Agent configuration</p>
+            <h2 id="configure-agent-heading" class="mt-1 text-xl font-semibold">Configure agent</h2>
+          </div>
+          <button id="close-configure-agent" type="button" aria-label="Close agent configuration" class="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800">
+            <svg class="size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg>
+          </button>
+        </div>
+        <label for="agent-system-prompt" class="mt-6 block text-sm font-medium">System prompt</label>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Changes are kept for this page session when you save.</p>
+        <textarea id="agent-system-prompt" rows="9" class="mt-3 block w-full resize-y rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm leading-6 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" spellcheck="true"></textarea>
+        <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <button id="cancel-configure-agent" type="button" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-200 px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Cancel</button>
+          <button id="save-agent-prompt" type="button" class="inline-flex h-10 items-center justify-center rounded-lg bg-emerald-600 px-4 text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">Save changes</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="delete-agent-dialog" aria-labelledby="delete-agent-heading" class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-950/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-4">
+          <h2 id="delete-agent-heading" class="text-lg font-semibold">Delete agent?</h2>
+          <button id="close-delete-agent" type="button" aria-label="Close delete confirmation" class="inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800">
+            <svg class="size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg>
+          </button>
+        </div>
+        <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">Remove <span id="delete-agent-name" class="font-medium text-slate-900 dark:text-white"></span> from Agent Management? This only affects the current page session.</p>
+        <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <button id="cancel-agent-delete" type="button" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-200 px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Cancel</button>
+          <button id="confirm-agent-delete" type="button" class="inline-flex h-10 items-center justify-center rounded-lg bg-rose-600 px-4 text-sm font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">Delete agent</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="user-detail-dialog" aria-labelledby="user-detail-heading" class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-lg overflow-y-auto rounded-xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-950/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">User record</p>
+            <h2 id="user-detail-heading" class="mt-1 text-xl font-semibold">User details</h2>
+          </div>
+          <button id="close-user-detail" type="button" aria-label="Close user details" class="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800">
+            <svg class="size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/></svg>
+          </button>
+        </div>
+        <dl class="mt-6 divide-y divide-slate-100 dark:divide-slate-800">
+          <div class="grid grid-cols-[7rem_1fr] gap-4 py-3 first:pt-0">
+            <dt class="text-sm text-slate-500 dark:text-slate-400">Name</dt>
+            <dd id="detail-user-name" class="break-words text-sm font-medium"></dd>
+          </div>
+          <div class="grid grid-cols-[7rem_1fr] gap-4 py-3">
+            <dt class="text-sm text-slate-500 dark:text-slate-400">Email</dt>
+            <dd id="detail-user-email" class="break-all text-sm font-medium"></dd>
+          </div>
+          <div class="grid grid-cols-[7rem_1fr] gap-4 py-3">
+            <dt class="text-sm text-slate-500 dark:text-slate-400">Subscription plan</dt>
+            <dd id="detail-user-plan" class="break-words text-sm font-medium"></dd>
+          </div>
+          <div class="grid grid-cols-[7rem_1fr] gap-4 py-3 last:pb-0">
+            <dt class="text-sm text-slate-500 dark:text-slate-400">Status</dt>
+            <dd><span id="detail-user-status" class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"></span></dd>
+          </div>
+        </dl>
+      </div>
+    </dialog>
+
+    <dialog id="delete-user-dialog" aria-labelledby="delete-user-heading" class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-xl border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-950/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+      <div class="p-6">
+        <h2 id="delete-user-heading" class="text-lg font-semibold">Delete user?</h2>
+        <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">This will remove <span id="delete-user-name" class="font-medium text-slate-900 dark:text-white"></span> from the table until the page is refreshed.</p>
+        <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <button id="cancel-user-delete" type="button" class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-200 px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Cancel</button>
+          <button id="confirm-user-delete" type="button" class="inline-flex h-10 items-center justify-center rounded-lg bg-rose-600 px-4 text-sm font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">Delete user</button>
+        </div>
+      </div>
+    </dialog>
+    <script>
+      const navigation = document.querySelector('nav[aria-label="Main navigation"]');
+      const viewLinks = navigation.querySelectorAll('[data-view-target]');
+      const views = {
+        dashboard: document.getElementById('dashboard-view'),
+        users: document.getElementById('users'),
+        agents: document.getElementById('agents'),
+        skills: document.getElementById('skills'),
+        contracts: document.getElementById('contracts'),
+        errors: document.getElementById('errors')
+      };
+      const sectionNames = {
+        dashboard: 'Dashboard',
+        users: 'User Management',
+        agents: 'Agent Management',
+        skills: 'Skills',
+        contracts: 'Agent Contracts',
+        errors: 'Error Log'
+      };
+      const breadcrumb = document.getElementById('section-breadcrumb');
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+      const activeClasses = [
+        'bg-emerald-50',
+        'text-emerald-800',
+        'dark:bg-emerald-950/70',
+        'dark:text-emerald-300'
+      ];
+      const inactiveClasses = [
+        'text-slate-500',
+        'transition',
+        'hover:bg-slate-100',
+        'hover:text-slate-900',
+        'dark:text-slate-400',
+        'dark:hover:bg-slate-800',
+        'dark:hover:text-white'
+      ];
+
+      function setTheme(isDark) {
+        document.documentElement.classList.toggle('dark', isDark);
+        localStorage.setItem('agenthub-theme', isDark ? 'dark' : 'light');
+        themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        themeIcon.innerHTML = isDark
+          ? '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"/>'
+          : '<path d="M20.2 15.1A8.3 8.3 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>';
+      }
+
+      setTheme(localStorage.getItem('agenthub-theme') === 'dark');
+      themeToggle.addEventListener('click', () => {
+        setTheme(!document.documentElement.classList.contains('dark'));
+      });
+
+      navigation.addEventListener('click', (event) => {
+        const clickedLink = event.target.closest('a');
+
+        if (!clickedLink || !navigation.contains(clickedLink)) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const selectedView = clickedLink.dataset.viewTarget;
+
+        if (!selectedView) {
+          return;
+        }
+
+        if (!views[selectedView]) {
+          return;
+        }
+
+        Object.entries(views).forEach(([viewName, view]) => {
+          view.hidden = viewName !== selectedView;
+        });
+        breadcrumb.textContent = sectionNames[selectedView];
+
+        viewLinks.forEach((link) => {
+          const isSelected = link === clickedLink;
+
+          link.classList.remove(...activeClasses, ...inactiveClasses);
+          link.classList.add(...(isSelected ? activeClasses : inactiveClasses));
+
+          if (isSelected) {
+            link.setAttribute('aria-current', 'page');
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+      });
+
+      document.querySelectorAll('[data-agent-skills-toggle]').forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+          const skillsPanel = document.getElementById(toggle.getAttribute('aria-controls'));
+          const shouldExpand = toggle.getAttribute('aria-expanded') !== 'true';
+          const skillsLabel = toggle.querySelector('[data-agent-skills-label]');
+          const skillsIcon = toggle.querySelector('[data-agent-skills-icon]');
+
+          toggle.setAttribute('aria-expanded', String(shouldExpand));
+          toggle.setAttribute('aria-label', `${shouldExpand ? 'Hide' : 'Show'} skills for ${toggle.dataset.agentName}`);
+          skillsPanel.setAttribute('aria-hidden', String(!shouldExpand));
+          skillsPanel.classList.toggle('grid-rows-[0fr]', !shouldExpand);
+          skillsPanel.classList.toggle('grid-rows-[1fr]', shouldExpand);
+          skillsPanel.classList.toggle('opacity-0', !shouldExpand);
+          skillsPanel.classList.toggle('opacity-100', shouldExpand);
+          skillsLabel.firstChild.textContent = shouldExpand ? 'Hide skills ' : 'Show skills ';
+          skillsIcon.classList.toggle('rotate-180', shouldExpand);
+        });
+      });
+
+      const usersTable = document.querySelector('#users table');
+      const userCount = document.getElementById('user-count');
+      const userDetailDialog = document.getElementById('user-detail-dialog');
+      const deleteUserDialog = document.getElementById('delete-user-dialog');
+      const detailReturnFocus = { button: null };
+      let rowPendingDelete = null;
+
+      function closeUserMenus() {
+        document.querySelectorAll('[data-user-menu]').forEach((menu) => {
+          menu.hidden = true;
+          const toggle = menu.parentElement.querySelector('[data-user-menu-toggle]');
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      function getUserRecord(row) {
+        return {
+          name: row.cells[0].textContent.trim(),
+          email: row.cells[1].textContent.trim(),
+          plan: row.cells[2].textContent.trim(),
+          status: row.cells[3].textContent.trim()
+        };
+      }
+
+      function showUserDetails(row) {
+        const user = getUserRecord(row);
+        const statusColors = {
+          Active: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300',
+          Pending: 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300',
+          Suspended: 'bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300'
+        };
+
+        document.getElementById('detail-user-name').textContent = user.name;
+        document.getElementById('detail-user-email').textContent = user.email;
+        document.getElementById('detail-user-plan').textContent = user.plan;
+
+        const statusBadge = document.getElementById('detail-user-status');
+        statusBadge.textContent = user.status;
+        statusBadge.className = `inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${statusColors[user.status] || 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'}`;
+
+        detailReturnFocus.button = row.querySelector('[data-user-menu-toggle]');
+        userDetailDialog.showModal();
+      }
+
+      function requestUserDelete(row) {
+        rowPendingDelete = row;
+        document.getElementById('delete-user-name').textContent = getUserRecord(row).name;
+        deleteUserDialog.showModal();
+      }
+
+      document.addEventListener('click', (event) => {
+        const clickedElement = event.target;
+        const menuToggle = clickedElement.closest('[data-user-menu-toggle]');
+
+        if (menuToggle) {
+          const menu = document.getElementById(menuToggle.getAttribute('aria-controls'));
+          const shouldOpen = menu.hidden;
+
+          closeUserMenus();
+
+          if (shouldOpen) {
+            menu.hidden = false;
+            menuToggle.setAttribute('aria-expanded', 'true');
+            menu.querySelector('[role="menuitem"]').focus();
+          }
+          return;
+        }
+
+        const menuAction = clickedElement.closest('[data-user-action]');
+        if (menuAction) {
+          const row = menuAction.closest('[data-user-row]');
+          closeUserMenus();
+
+          if (menuAction.dataset.userAction === 'view') {
+            showUserDetails(row);
+          } else if (menuAction.dataset.userAction === 'delete') {
+            requestUserDelete(row);
+          }
+          return;
+        }
+
+        if (!clickedElement.closest('[data-user-actions]')) {
+          closeUserMenus();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          const openMenu = document.querySelector('[data-user-menu]:not([hidden])');
+          if (openMenu) {
+            const toggle = openMenu.parentElement.querySelector('[data-user-menu-toggle]');
+            closeUserMenus();
+            toggle.focus();
+          }
+          return;
+        }
+
+        const menuItem = event.target.closest('[role="menuitem"]');
+        if (!menuItem || !['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+          return;
+        }
+
+        const menuItems = Array.from(menuItem.closest('[role="menu"]').querySelectorAll('[role="menuitem"]'));
+        const currentIndex = menuItems.indexOf(menuItem);
+        const nextIndex = event.key === 'Home'
+          ? 0
+          : event.key === 'End'
+            ? menuItems.length - 1
+            : (currentIndex + (event.key === 'ArrowDown' ? 1 : -1) + menuItems.length) % menuItems.length;
+
+        event.preventDefault();
+        menuItems[nextIndex].focus();
+      });
+
+      document.getElementById('close-user-detail').addEventListener('click', () => {
+        userDetailDialog.close();
+      });
+
+      userDetailDialog.addEventListener('click', (event) => {
+        if (event.target === userDetailDialog) {
+          userDetailDialog.close();
+        }
+      });
+
+      userDetailDialog.addEventListener('close', () => {
+        if (detailReturnFocus.button?.isConnected) {
+          detailReturnFocus.button.focus();
+        }
+      });
+
+      document.getElementById('cancel-user-delete').addEventListener('click', () => {
+        deleteUserDialog.close();
+      });
+
+      document.getElementById('confirm-user-delete').addEventListener('click', () => {
+        if (!rowPendingDelete) {
+          return;
+        }
+
+        rowPendingDelete.remove();
+        rowPendingDelete = null;
+        const remainingUsers = usersTable.querySelectorAll('tbody [data-user-row]').length;
+        userCount.textContent = `${remainingUsers} ${remainingUsers === 1 ? 'user' : 'users'}`;
+        deleteUserDialog.close();
+      });
+
+      deleteUserDialog.addEventListener('click', (event) => {
+        if (event.target === deleteUserDialog) {
+          deleteUserDialog.close();
+        }
+      });
+
+      deleteUserDialog.addEventListener('close', () => {
+        rowPendingDelete = null;
+      });
+
+      const agentSystemPrompts = {
+        atlas: 'You are Atlas Research, an AI research assistant. Investigate the user’s question using reliable sources, separate verified facts from interpretation, and summarize findings in clear sections. Include source names and links when available. If evidence is limited or sources disagree, say so plainly.',
+        support: 'You are Support Desk, a customer support assistant. Respond with patience and empathy, use the approved product guidance provided to you, and give the user clear next steps. Never invent policies or claim an issue is resolved when it is not. Ask a focused question when key information is missing.',
+        meeting: 'You are Meeting Scheduler, a scheduling assistant. Help participants find a suitable meeting time using the availability and time zones they provide. Confirm the date, time zone, duration, and attendees before finalizing a booking. Do not assume availability that has not been supplied.',
+        contract: 'You are Contract Reviewer, a document review assistant. Identify important terms, obligations, dates, fees, renewal language, and unusual risks in the supplied text. Support each observation with a short quotation or section reference. Do not invent missing terms or present your review as legal advice.'
+      };
+      const agentCount = document.getElementById('agent-count');
+      const configureAgentDialog = document.getElementById('configure-agent-dialog');
+      const configureAgentHeading = document.getElementById('configure-agent-heading');
+      const agentPromptField = document.getElementById('agent-system-prompt');
+      const deleteAgentDialog = document.getElementById('delete-agent-dialog');
+      const deleteAgentName = document.getElementById('delete-agent-name');
+      let configuredAgentId = null;
+      let configureReturnFocus = null;
+      let agentPendingDelete = null;
+
+      function closeAgentMenus() {
+        document.querySelectorAll('[data-agent-menu]').forEach((menu) => {
+          menu.hidden = true;
+          menu.parentElement.querySelector('[data-agent-menu-toggle]').setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      function openAgentConfiguration(card) {
+        configuredAgentId = card.dataset.agentId;
+        configureReturnFocus = card.querySelector('[data-agent-menu-toggle]');
+        configureAgentHeading.textContent = `Configure ${card.querySelector('[data-agent-name]').textContent.trim()}`;
+        agentPromptField.value = agentSystemPrompts[configuredAgentId];
+        configureAgentDialog.showModal();
+        agentPromptField.focus();
+      }
+
+      function requestAgentDelete(card) {
+        agentPendingDelete = card;
+        deleteAgentName.textContent = card.querySelector('[data-agent-name]').textContent.trim();
+        deleteAgentDialog.showModal();
+      }
+
+      document.addEventListener('click', (event) => {
+        const clickedElement = event.target;
+        const menuToggle = clickedElement.closest('[data-agent-menu-toggle]');
+
+        if (menuToggle) {
+          const menu = document.getElementById(menuToggle.getAttribute('aria-controls'));
+          const shouldOpen = menu.hidden;
+
+          closeAgentMenus();
+
+          if (shouldOpen) {
+            menu.hidden = false;
+            menuToggle.setAttribute('aria-expanded', 'true');
+            menu.querySelector('[role="menuitem"]').focus();
+          }
+          return;
+        }
+
+        const menuAction = clickedElement.closest('[data-agent-action]');
+        if (menuAction) {
+          const card = menuAction.closest('[data-agent-card]');
+          closeAgentMenus();
+
+          if (menuAction.dataset.agentAction === 'configure') {
+            openAgentConfiguration(card);
+          } else if (menuAction.dataset.agentAction === 'delete') {
+            requestAgentDelete(card);
+          }
+          return;
+        }
+
+        if (!clickedElement.closest('[data-agent-actions]')) {
+          closeAgentMenus();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') {
+          return;
+        }
+
+        const openMenu = document.querySelector('[data-agent-menu]:not([hidden])');
+        if (openMenu) {
+          const toggle = openMenu.parentElement.querySelector('[data-agent-menu-toggle]');
+          closeAgentMenus();
+          toggle.focus();
+        }
+      });
+
+      document.getElementById('close-configure-agent').addEventListener('click', () => {
+        configureAgentDialog.close();
+      });
+
+      document.getElementById('cancel-configure-agent').addEventListener('click', () => {
+        configureAgentDialog.close();
+      });
+
+      document.getElementById('save-agent-prompt').addEventListener('click', () => {
+        if (!configuredAgentId) {
+          return;
+        }
+
+        agentSystemPrompts[configuredAgentId] = agentPromptField.value;
+        configureAgentDialog.close();
+      });
+
+      configureAgentDialog.addEventListener('click', (event) => {
+        if (event.target === configureAgentDialog) {
+          configureAgentDialog.close();
+        }
+      });
+
+      configureAgentDialog.addEventListener('close', () => {
+        configuredAgentId = null;
+        if (configureReturnFocus?.isConnected) {
+          configureReturnFocus.focus();
+        }
+      });
+
+      document.getElementById('close-delete-agent').addEventListener('click', () => {
+        deleteAgentDialog.close();
+      });
+
+      document.getElementById('cancel-agent-delete').addEventListener('click', () => {
+        deleteAgentDialog.close();
+      });
+
+      document.getElementById('confirm-agent-delete').addEventListener('click', () => {
+        if (!agentPendingDelete) {
+          return;
+        }
+
+        agentPendingDelete.remove();
+        agentPendingDelete = null;
+        const remainingAgents = document.querySelectorAll('[data-agent-card]').length;
+        agentCount.textContent = `${remainingAgents} ${remainingAgents === 1 ? 'agent' : 'agents'}`;
+        deleteAgentDialog.close();
+      });
+
+      deleteAgentDialog.addEventListener('click', (event) => {
+        if (event.target === deleteAgentDialog) {
+          deleteAgentDialog.close();
+        }
+      });
+
+      deleteAgentDialog.addEventListener('close', () => {
+        agentPendingDelete = null;
+      });
+
+      const skillsList = document.getElementById('skills-list');
+      const skillsCount = document.getElementById('skills-count');
+      const skills = [
+        {
+          id: 'web-browsing',
+          name: 'Web browsing',
+          description: 'Find and review information on public websites.',
+          capability: 'The agent can search pages, follow links, and summarize relevant sources for a task.',
+          agents: ['Atlas Research', 'Support Desk', 'Contract Reviewer']
+        },
+        {
+          id: 'document-reading',
+          name: 'Document reading',
+          description: 'Read supplied documents and locate useful details.',
+          capability: 'The agent can extract key facts, dates, and passages from documents provided for its work.',
+          agents: ['Atlas Research', 'Contract Reviewer']
+        },
+        {
+          id: 'calendar-management',
+          name: 'Calendar management',
+          description: 'Review availability and help coordinate schedules.',
+          capability: 'The agent can compare available time slots and organize meeting details using the supplied calendar information.',
+          agents: ['Meeting Scheduler']
+        },
+        {
+          id: 'email-management',
+          name: 'Email management',
+          description: 'Prepare and organize email communication.',
+          capability: 'The agent can draft replies, summarize messages, and organize email tasks for review.',
+          agents: ['Support Desk', 'Meeting Scheduler']
+        }
+      ];
+      const contracts = [
+        {
+          id: 'olivia-atlas',
+          client: 'Olivia Rhye',
+          agent: 'Atlas Research',
+          skills: [{ name: 'Web browsing', price: 45 }, { name: 'Document reading', price: 60 }],
+          start: 'Jan 15, 2026',
+          end: 'Jan 14, 2027'
+        },
+        {
+          id: 'phoenix-support',
+          client: 'Phoenix Baker',
+          agent: 'Support Desk',
+          skills: [{ name: 'Web browsing', price: 45 }, { name: 'Email management', price: 35 }],
+          start: 'Mar 1, 2026',
+          end: 'Feb 28, 2027'
+        },
+        {
+          id: 'lana-meeting',
+          client: 'Lana Steiner',
+          agent: 'Meeting Scheduler',
+          skills: [{ name: 'Calendar management', price: 50 }, { name: 'Email management', price: 35 }],
+          start: 'Apr 10, 2026',
+          end: 'Apr 9, 2027'
+        },
+        {
+          id: 'demi-contract',
+          client: 'Demi Wilkinson',
+          agent: 'Contract Reviewer',
+          skills: [{ name: 'Document reading', price: 60 }, { name: 'Web browsing', price: 45 }],
+          start: 'Jun 1, 2026',
+          end: 'May 31, 2027'
+        }
+      ];
+      const errors = [
+        {
+          id: 'err-atlas-auth',
+          timestamp: 'Nov 6, 2026 · 09:42 AM',
+          agent: 'Atlas Research',
+          type: 'Authentication',
+          description: 'A source could not be opened because its session expired.',
+          status: 'Open',
+          trace: 'SourceFetchError: request rejected with status 401\n  at fetchSource (agent/source-client.js:84:13)\n  at async collectReferences (agent/research.js:126:9)\n  at async runTask (runtime/runner.js:52:5)'
+        },
+        {
+          id: 'err-support-timeout',
+          timestamp: 'Nov 6, 2026 · 09:18 AM',
+          agent: 'Support Desk',
+          type: 'Timeout',
+          description: 'The help center search did not return before the request limit.',
+          status: 'Open',
+          trace: 'TimeoutError: help-center lookup exceeded 8000ms\n  at searchArticles (skills/help-center.js:47:11)\n  at async prepareReply (agent/support.js:103:7)\n  at async runTask (runtime/runner.js:52:5)'
+        },
+        {
+          id: 'err-meeting-calendar',
+          timestamp: 'Nov 6, 2026 · 08:56 AM',
+          agent: 'Meeting Scheduler',
+          type: 'Integration',
+          description: 'Calendar availability could not be loaded for one attendee.',
+          status: 'Open',
+          trace: 'CalendarSyncError: provider returned an unavailable calendar\n  at readAvailability (skills/calendar.js:112:15)\n  at async findMeetingSlots (agent/scheduler.js:76:9)\n  at async runTask (runtime/runner.js:52:5)'
+        },
+        {
+          id: 'err-contract-permission',
+          timestamp: 'Nov 6, 2026 · 08:31 AM',
+          agent: 'Contract Reviewer',
+          type: 'Permission',
+          description: 'A document was not shared with the reviewer agent.',
+          status: 'Open',
+          trace: 'AccessDeniedError: document permission check failed\n  at loadDocument (skills/document-reader.js:68:17)\n  at async reviewContract (agent/reviewer.js:91:7)\n  at async runTask (runtime/runner.js:52:5)'
+        },
+        {
+          id: 'err-atlas-rate',
+          timestamp: 'Nov 6, 2026 · 07:54 AM',
+          agent: 'Atlas Research',
+          type: 'Rate limit',
+          description: 'A research source temporarily limited repeated requests.',
+          status: 'Open',
+          trace: 'RateLimitError: source returned retry-after: 30\n  at fetchSource (agent/source-client.js:101:13)\n  at async collectReferences (agent/research.js:126:9)\n  at async runTask (runtime/runner.js:52:5)'
+        },
+        {
+          id: 'err-support-validation',
+          timestamp: 'Nov 5, 2026 · 04:17 PM',
+          agent: 'Support Desk',
+          type: 'Validation',
+          description: 'A draft reply was missing the required ticket reference.',
+          status: 'Open',
+          trace: 'ValidationError: ticketReference is required\n  at validateReply (agent/support.js:148:11)\n  at async prepareReply (agent/support.js:109:5)\n  at async runTask (runtime/runner.js:52:5)'
+        }
+      ];
+
+      const skillTypeClasses = 'rounded-full bg-sky-50 px-2.5 py-1 text-xs font-medium text-sky-700 dark:bg-sky-950 dark:text-sky-300';
+      const errorTypeClasses = {
+        Authentication: 'bg-violet-50 text-violet-700 dark:bg-violet-950 dark:text-violet-300',
+        Timeout: 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300',
+        Integration: 'bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300',
+        Permission: 'bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300',
+        'Rate limit': 'bg-orange-50 text-orange-700 dark:bg-orange-950 dark:text-orange-300',
+        Validation: 'bg-teal-50 text-teal-700 dark:bg-teal-950 dark:text-teal-300'
+      };
+
+      function createElement(tagName, className = '', text = '') {
+        const element = document.createElement(tagName);
+        if (className) {
+          element.className = className;
+        }
+        if (text) {
+          element.textContent = text;
+        }
+        return element;
+      }
+
+      function createActionMenu(type, id, label, actions) {
+        const wrapper = createElement('div', 'relative inline-flex');
+        wrapper.setAttribute(`data-${type}-actions`, '');
+
+        const toggle = createElement('button', 'inline-flex size-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800');
+        toggle.type = 'button';
+        toggle.setAttribute('aria-label', `Actions for ${label}`);
+        toggle.setAttribute('aria-haspopup', 'menu');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-controls', `${type}-menu-${id}`);
+        toggle.setAttribute(`data-${type}-menu-toggle`, '');
+        toggle.innerHTML = '<svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/></svg>';
+
+        const menu = createElement('div', 'absolute right-0 top-full z-30 mt-1 w-44 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800');
+        menu.id = `${type}-menu-${id}`;
+        menu.setAttribute('role', 'menu');
+        menu.setAttribute('aria-label', `Actions for ${label}`);
+        menu.setAttribute(`data-${type}-menu`, '');
+        menu.hidden = true;
+
+        actions.forEach(({ action, text }) => {
+          const item = createElement('button', `block w-full rounded-md px-3 py-2 text-left text-sm ${action === 'delete' || action === 'resolve' ? 'text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950' : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700'}`, text);
+          item.type = 'button';
+          item.setAttribute('role', 'menuitem');
+          item.setAttribute(`data-${type}-action`, action);
+          menu.append(item);
+        });
+
+        wrapper.append(toggle, menu);
+        return wrapper;
+      }
+
+      function closeMenus(type) {
+        document.querySelectorAll(`[data-${type}-menu]`).forEach((menu) => {
+          menu.hidden = true;
+          menu.parentElement.querySelector(`[data-${type}-menu-toggle]`)?.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      function registerActionMenus(type, onAction) {
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+          const toggle = target.closest(`[data-${type}-menu-toggle]`);
+
+          if (toggle) {
+            const menu = document.getElementById(toggle.getAttribute('aria-controls'));
+            const shouldOpen = menu.hidden;
+            closeMenus(type);
+            if (shouldOpen) {
+              menu.hidden = false;
+              toggle.setAttribute('aria-expanded', 'true');
+              menu.querySelector('[role="menuitem"]')?.focus();
+            }
+            return;
+          }
+
+          const menuAction = target.closest(`[data-${type}-action]`);
+          if (menuAction) {
+            const wrapper = menuAction.closest(`[data-${type}-actions]`);
+            const id = wrapper.dataset.recordId;
+            closeMenus(type);
+            onAction(menuAction.getAttribute(`data-${type}-action`), id, menuAction);
+            return;
+          }
+
+          if (!target.closest(`[data-${type}-actions]`)) {
+            closeMenus(type);
+          }
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          const openMenu = document.querySelector(`[data-${type}-menu]:not([hidden])`);
+          if (openMenu) {
+            const toggle = openMenu.parentElement.querySelector(`[data-${type}-menu-toggle]`);
+            closeMenus(type);
+            toggle.focus();
+          }
+        });
+      }
+
+      function setDialogText(dialogId, fieldId, value) {
+        document.querySelector(`#${dialogId} #${fieldId}`).textContent = value;
+      }
+
+      function openSkillDetail(skill) {
+        setDialogText('skill-detail-dialog', 'skill-detail-name', skill.name);
+        setDialogText('skill-detail-dialog', 'skill-detail-description', skill.description);
+        setDialogText('skill-detail-dialog', 'skill-detail-capability', skill.capability);
+        setDialogText('skill-detail-dialog', 'skill-detail-agents', `${skill.agents.length} ${skill.agents.length === 1 ? 'agent' : 'agents'}: ${skill.agents.join(', ')}`);
+        document.getElementById('skill-detail-dialog').showModal();
+      }
+
+      function renderSkills() {
+        skillsList.replaceChildren();
+        skills.forEach((skill) => {
+          const card = createElement('article', 'rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900');
+          card.id = `skill-card-${skill.id}`;
+          card.dataset.skillCard = '';
+          card.dataset.recordId = skill.id;
+
+          const top = createElement('div', 'flex items-start gap-3');
+          const icon = createElement('div', 'flex size-10 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sm font-semibold text-sky-700 dark:bg-sky-950 dark:text-sky-300', skill.name.split(' ').map((word) => word[0]).join('').slice(0, 2).toUpperCase());
+          const titleGroup = createElement('div', 'min-w-0 flex-1');
+          titleGroup.append(createElement('h2', 'font-semibold', skill.name), createElement('p', 'mt-1 text-sm text-slate-500 dark:text-slate-400', skill.description));
+          const actions = createActionMenu('skill', skill.id, skill.name, [
+            { action: 'view', text: 'View detail' },
+            { action: 'delete', text: 'Delete' }
+          ]);
+          actions.dataset.recordId = skill.id;
+          top.append(icon, titleGroup, actions);
+
+          const capability = createElement('p', 'mt-4 text-sm leading-6 text-slate-600 dark:text-slate-300', skill.capability);
+          const footer = createElement('div', 'mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4 dark:border-slate-800');
+          const enabled = createElement('p', 'text-sm text-slate-500 dark:text-slate-400', `${skill.agents.length} ${skill.agents.length === 1 ? 'agent' : 'agents'} enabled`);
+          const agentNames = createElement('p', 'text-xs text-slate-400 dark:text-slate-500', skill.agents.join(', '));
+          const agentGroup = createElement('div');
+          agentGroup.append(enabled, agentNames);
+          const badge = createElement('span', skillTypeClasses, 'Agent capability');
+          footer.append(agentGroup, badge);
+          card.append(top, capability, footer);
+          skillsList.append(card);
+        });
+        skillsCount.textContent = `${skills.length} ${skills.length === 1 ? 'skill' : 'skills'}`;
+      }
+
+      let skillPendingDelete = null;
+      registerActionMenus('skill', (action, id) => {
+        const skill = skills.find((item) => item.id === id);
+        if (!skill) {
+          return;
+        }
+        if (action === 'view') {
+          openSkillDetail(skill);
+        } else if (action === 'delete') {
+          skillPendingDelete = id;
+          document.getElementById('delete-skill-name').textContent = skill.name;
+          document.getElementById('delete-skill-dialog').showModal();
+        }
+      });
+
+      document.getElementById('confirm-skill-delete').addEventListener('click', () => {
+        if (!skillPendingDelete) {
+          return;
+        }
+        const skillIndex = skills.findIndex((skill) => skill.id === skillPendingDelete);
+        if (skillIndex !== -1) {
+          skills.splice(skillIndex, 1);
+          document.getElementById(`skill-card-${skillPendingDelete}`).remove();
+          skillsCount.textContent = `${skills.length} ${skills.length === 1 ? 'skill' : 'skills'}`;
+        }
+        skillPendingDelete = null;
+        document.getElementById('delete-skill-dialog').close();
+      });
+
+      document.getElementById('cancel-skill-delete').addEventListener('click', () => {
+        document.getElementById('delete-skill-dialog').close();
+      });
+
+      document.getElementById('delete-skill-dialog').addEventListener('close', () => {
+        skillPendingDelete = null;
+      });
+
+      renderSkills();
+
+      function formatCurrency(amount) {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
+      }
+
+      const contractsBody = document.getElementById('contracts-body');
+      const contractDetailDialog = document.getElementById('contract-detail-dialog');
+
+      function showContractDetail(contract) {
+        setDialogText('contract-detail-dialog', 'contract-detail-heading', `${contract.client} · ${contract.agent}`);
+        setDialogText('contract-detail-dialog', 'contract-detail-client', contract.client);
+        setDialogText('contract-detail-dialog', 'contract-detail-agent', contract.agent);
+        setDialogText('contract-detail-dialog', 'contract-detail-start', contract.start);
+        setDialogText('contract-detail-dialog', 'contract-detail-end', contract.end);
+
+        const skillsBody = document.getElementById('contract-detail-skills');
+        skillsBody.replaceChildren();
+        contract.skills.forEach((skill) => {
+          const row = createElement('tr');
+          row.append(createElement('th', 'px-4 py-3 font-medium', skill.name), createElement('td', 'px-4 py-3 text-right', formatCurrency(skill.price)));
+          skillsBody.append(row);
+        });
+        setDialogText('contract-detail-dialog', 'contract-detail-total', formatCurrency(contract.skills.reduce((total, skill) => total + skill.price, 0)));
+        contractDetailDialog.showModal();
+      }
+
+      contracts.forEach((contract) => {
+        const row = createElement('tr', 'align-top');
+        row.id = `contract-row-${contract.id}`;
+        row.append(
+          createElement('th', 'break-words px-2 py-4 font-medium sm:px-4', contract.client),
+          createElement('td', 'break-words px-2 py-4 text-slate-600 dark:text-slate-300 sm:px-4', contract.agent),
+          createElement('td', 'break-words px-2 py-4 text-slate-600 dark:text-slate-300 sm:px-4', contract.skills.map((skill) => skill.name).join(', ')),
+          createElement('td', 'break-words px-2 py-4 text-slate-600 dark:text-slate-300 sm:px-4', contract.start),
+          createElement('td', 'break-words px-2 py-4 text-slate-600 dark:text-slate-300 sm:px-4', contract.end),
+          createElement('td', 'break-words px-2 py-4 font-medium sm:px-4', formatCurrency(contract.skills.reduce((total, skill) => total + skill.price, 0)))
+        );
+        const actionCell = createElement('td', 'px-2 py-3 text-right sm:px-4');
+        const actions = createActionMenu('contract', contract.id, `${contract.client} contract`, [{ action: 'view', text: 'View detail' }]);
+        actions.dataset.recordId = contract.id;
+        actionCell.append(actions);
+        row.append(actionCell);
+        contractsBody.append(row);
+      });
+
+      registerActionMenus('contract', (action, id) => {
+        if (action === 'view') {
+          const contract = contracts.find((item) => item.id === id);
+          if (contract) {
+            showContractDetail(contract);
+          }
+        }
+      });
+
+      const errorsBody = document.getElementById('errors-body');
+      const errorDetailDialog = document.getElementById('error-detail-dialog');
+
+      function renderErrorStatus(row, error) {
+        const status = row.querySelector('[data-error-status]');
+        status.textContent = error.status;
+        status.className = error.status === 'Resolved'
+          ? 'inline-flex rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-medium text-emerald-700 sm:px-2.5 sm:text-xs dark:bg-emerald-950 dark:text-emerald-300'
+          : 'inline-flex rounded-full bg-slate-100 px-2 py-1 text-[10px] font-medium text-slate-600 sm:px-2.5 sm:text-xs dark:bg-slate-800 dark:text-slate-300';
+        row.classList.toggle('opacity-70', error.status === 'Resolved');
+      }
+
+      function showErrorDetail(error) {
+        setDialogText('error-detail-dialog', 'error-detail-heading', error.type);
+        setDialogText('error-detail-dialog', 'error-detail-timestamp', error.timestamp);
+        setDialogText('error-detail-dialog', 'error-detail-agent', error.agent);
+        setDialogText('error-detail-dialog', 'error-detail-type', error.type);
+        setDialogText('error-detail-dialog', 'error-detail-status', error.status);
+        setDialogText('error-detail-dialog', 'error-detail-description', error.description);
+        setDialogText('error-detail-dialog', 'error-detail-trace', error.trace);
+        errorDetailDialog.showModal();
+      }
+
+      errors.forEach((error) => {
+        const row = createElement('tr', 'align-top');
+        row.id = `error-row-${error.id}`;
+        row.append(
+          createElement('td', 'break-words px-2 py-4 text-slate-600 sm:px-4 dark:text-slate-300', error.timestamp),
+          createElement('th', 'break-words px-2 py-4 font-medium sm:px-4', error.agent)
+        );
+        const typeCell = createElement('td', 'px-2 py-4 sm:px-4');
+        typeCell.append(createElement('span', `inline-flex rounded-full px-2 py-1 text-[10px] font-medium sm:px-2.5 sm:text-xs ${errorTypeClasses[error.type]}`, error.type));
+        row.append(typeCell, createElement('td', 'break-words px-2 py-4 text-slate-600 sm:px-4 dark:text-slate-300', error.description));
+        const statusCell = createElement('td', 'px-2 py-4 sm:px-4');
+        statusCell.append(createElement('span', '', error.status));
+        statusCell.firstElementChild.setAttribute('data-error-status', '');
+        row.append(statusCell);
+        const actionCell = createElement('td', 'px-2 py-3 text-right sm:px-4');
+        const actions = createActionMenu('error', error.id, `${error.agent} error`, [
+          { action: 'view', text: 'View detail' },
+          { action: 'resolve', text: 'Mark as resolved' }
+        ]);
+        actions.dataset.recordId = error.id;
+        actionCell.append(actions);
+        row.append(actionCell);
+        errorsBody.append(row);
+        renderErrorStatus(row, error);
+      });
+
+      registerActionMenus('error', (action, id, menuItem) => {
+        const error = errors.find((item) => item.id === id);
+        if (!error) {
+          return;
+        }
+        if (action === 'view') {
+          showErrorDetail(error);
+        } else if (action === 'resolve') {
+          error.status = 'Resolved';
+          renderErrorStatus(document.getElementById(`error-row-${id}`), error);
+          menuItem.textContent = 'Mark as resolved';
+        }
+      });
+
+      document.querySelectorAll('[data-dialog-close]').forEach((button) => {
+        button.addEventListener('click', () => {
+          document.getElementById(button.dataset.dialogClose).close();
+        });
+      });
+
+      ['skill-detail-dialog', 'delete-skill-dialog', 'contract-detail-dialog', 'error-detail-dialog'].forEach((dialogId) => {
+        const dialog = document.getElementById(dialogId);
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
